@@ -44,3 +44,35 @@ button.delete:hover {
   background-color: #fb7a7a;
   color: #000;
 }
+
+.job {
+  margin: 10px;
+  .title {
+    width: 300px;
+    display: inline-block;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+  }
+}
+
+.status {
+  border: 1px solid #666;
+  background-color: #999;
+  padding: 5px;
+  border-radius: 5px;
+  text-transform: capitalize;
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.status.completed {
+  background-color: #6cc86c;
+}
+
+.status.error {
+  background-color: #c86c6c;
+}

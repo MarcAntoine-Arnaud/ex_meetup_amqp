@@ -2,6 +2,7 @@
 
 import os
 import json
+import time
 import traceback
 import logging
 
@@ -19,6 +20,8 @@ def callback(ch, method, properties, body):
     try:
         msg = json.loads(body.decode('utf-8'))
         logging.debug( msg )
+
+        time.sleep(3)
 
         body_message = {
             "status": 'completed',

@@ -17,11 +17,13 @@
         <i class="fa fa-trash"
           ng-click="vm.deleteJob(job.id)"></i>
       </span>
-      <span>
+      <span class="title">
         {{job.name}}
-        <span ng-repeat="status in job.status">
-          {{status.state}}
-        </span>
+      </span>
+      <span ng-repeat="status in job.status"
+        class="status"
+        ng-class="status.state">
+        {{status.state}}
       </span>
     </div>
   </div>

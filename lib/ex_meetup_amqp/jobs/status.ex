@@ -16,6 +16,7 @@ defmodule ExMeetupAmqp.Jobs.Status do
   def changeset(%Status{} = job, attrs) do
     job
     |> cast(attrs, [:state, :job_id])
+    |> foreign_key_constraint(:job_id)
     |> validate_required([:state, :job_id])
   end
 
