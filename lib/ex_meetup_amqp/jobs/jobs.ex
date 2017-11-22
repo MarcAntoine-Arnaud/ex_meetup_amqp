@@ -19,6 +19,7 @@ defmodule ExMeetupAmqp.Jobs do
   """
   def list_jobs do
     Repo.all(Job)
+    |> Repo.preload(:status)
   end
 
   @doc """

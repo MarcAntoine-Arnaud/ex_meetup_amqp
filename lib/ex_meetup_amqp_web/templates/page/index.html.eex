@@ -19,6 +19,9 @@
       </span>
       <span>
         {{job.name}}
+        <span ng-repeat="status in job.status">
+          {{status.state}}
+        </span>
       </span>
     </div>
   </div>

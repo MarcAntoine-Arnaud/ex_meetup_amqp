@@ -11,8 +11,19 @@ defmodule ExMeetupAmqpWeb.JobView do
   end
 
   def render("job.json", %{job: job}) do
-    %{id: job.id,
+    status =
+      if is_list(job.status) do
+        render_many(job.status, ExMeetupAmqpWeb.StatusView, "state.json")
+      else
+        []
+      end
+
+    %{
+      id: job.id,
       name: job.name,
-      params: job.params}
+      params: job.params,
+      status: status,
+      inserted_at: job.inserted_at
+    }
   end
 end
