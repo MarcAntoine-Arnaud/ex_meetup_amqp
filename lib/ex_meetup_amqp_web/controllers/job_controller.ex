@@ -49,7 +49,7 @@ defmodule ExMeetupAmqpWeb.JobController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => _id}) do
     # job = Jobs.get_job!(id)
     # with {:ok, %Job{}} <- Jobs.delete_job(job) do
     #   send_resp(conn, :no_content, "")
