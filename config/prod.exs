@@ -59,6 +59,23 @@ config :logger, level: :info
 #     config :ex_meetup_amqp, ExMeetupAmqpWeb.Endpoint, server: true
 #
 
+config :ex_meetup_amqp, ExMeetupAmqpWeb.Endpoint,
+  secret_key_base: "WzHyGzHsy0VflZcAynNf3xwUbUBzw3m7BkaiuiVpD0qofv0r8+BlXDJzadh+NTLN"
+
+# Configure your database
+config :ex_meetup_amqp, ExMeetupAmqp.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "ex_meetup_amqp_prod",
+  hostname: "postgres",
+  pool_size: 15
+
+config :amqp,
+  hostname: "rabbitmq",
+  username: "guest",
+  password: "guest"
+
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"
