@@ -18,133 +18,41 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-// import socket from "./socket"
+import channel from "./socket"
 
-module = angular.module('MyApp', [
-  'ngResource'
+import JobController from "./job/job.controller"
+import JobFactory from "./job/job.factory"
+import JobService from "./job/job.service"
+
+module = angular.module('ExMeetupAmqp', [
+  'ngResource',
 ]);
 
+module
+  .factory('JobFactory', JobFactory)
+  .factory('JobService', JobService)
+  .controller('JobController', JobController);
 
-module.factory('JobFactory', JobFactory);
-
-JobFactory.$inject = ['$resource'];
-
-function JobFactory($resource) {
-  return $resource('/api/jobs', {}, {
-    getJobs: {
-      method: 'GET',
-    },
-    newJob: {
-      method: 'POST',
-    },
-    getJob: {
-      method: 'GET',
-      url: '/api/jobs/:id',
-      params: {id: '@id'}
-    },
-    deleteJob: {
-      method: 'DELETE',
-      url: '/api/jobs/:id',
-      params: {id: '@id'}
-    },
-  });
-}
-
-module.factory('JobService', JobService);
 
 JobService.$inject = [
   '$http',
   'JobFactory'
 ];
-function JobService(
-  $http,
-  JobFactory
-) {
-  function Service() {
-  }
-
-  Service.prototype = {
-    getJobs: getJobs,
-    getJob: getJob,
-    newJob: newJob,
-    deleteJob: deleteJob,
-  }
-
-  return new Service();
-
-  function getJobs(params){
-    return JobFactory.getJobs(params).$promise;
-  }
-
-  function getJob(id){
-    return JobFactory.getJob({id: id}).$promise;
-  }
-  function newJob(params){
-    return JobFactory.newJob({job: params}).$promise;
-  }
-  function deleteJob(id){
-    return JobFactory.deleteJob({id: id}).$promise;
-  }
-}
-
-
-module.controller('JobController', JobController);
-
+JobFactory.$inject = ['$resource'];
 JobController.$inject = [
   '$http',
   '$rootScope',
-  'JobService'
+  'JobService',
 ];
 
-function JobController(
-  $http,
-  $rootScope,
-  JobService)
-{
-  var vm = this;
-  vm.start = start;
-  vm.deleteJob = deleteJob;
-  vm.deleteAllJobs = deleteAllJobs;
+module.run(run);
 
-  (function initController() {
-    updateJobs();
-  })();
+run.$inject = [
+  '$rootScope'
+];
 
-  function start() {
-    var params = vm.job;
-    params.params = {};
-    JobService.newJob(params).then(
-    function(response) {
-      console.log("done");
-      updateJobs();
-    },
-    function(message) {
-      console.log("error", message);
-    });
-  }
-
-  function deleteJob(job_id) {
-    JobService.deleteJob(job_id);
-    updateJobs();
-  }
-
-  function deleteAllJobs(job_id) {
-    for (var i = vm.jobs.length - 1; i >= 0; i--) {
-      JobService.deleteJob(vm.jobs[i].id).then(
-      function(response) {
-        updateJobs();
-      });
-    }
-  }
-
-  function updateJobs(){
-    JobService.getJobs().then(
-    function(response) {
-      vm.jobs = response.data;
-    },
-    function(message) {
-      console.log("error", message);
-    });
-  }
-}
-
+function run($rootScope){
+  channel.on("job_status", payload => {
+    $rootScope.$emit('JOB_EVENT', payload);
+  });
+};

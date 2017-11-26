@@ -3,6 +3,7 @@
   <div>
     <form novalidate>
       <input type="text" ng-model=vm.job.name>
+      <input type="number" name=dude ng-model=vm.iterations min=1>
       <button type="submit" ng-click="vm.start()">Start</button>
     </form>
   </div>
@@ -11,7 +12,13 @@
     <i class="fa fa-trash"></i>Delete all jobs
   </button>
 
-  <div ng-repeat="job in vm.jobs" class="jobs">
+  <h1>
+    {{vm.completed}} / {{vm.total}}
+  </h1>
+
+  {{vm.jobs_in_db}} job in database
+
+  <%# <div ng-repeat="job in vm.jobs" class="jobs">
     <div class="job">
       <span>
         <i class="fa fa-trash"
@@ -26,5 +33,5 @@
         {{status.state}}
       </span>
     </div>
-  </div>
+  </div> %>
 </div>

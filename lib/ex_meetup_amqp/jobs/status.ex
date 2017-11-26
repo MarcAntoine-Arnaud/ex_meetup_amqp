@@ -23,8 +23,6 @@ defmodule ExMeetupAmqp.Jobs.Status do
   def set_job_status(job_id, status) do
     %Status{}
     |> Status.changeset(%{job_id: job_id, state: status})
-    |> IO.inspect
     |> Repo.insert()
-    |> IO.inspect
   end
 end

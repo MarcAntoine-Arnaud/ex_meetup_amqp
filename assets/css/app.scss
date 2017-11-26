@@ -19,6 +19,13 @@ input[type=text] {
   outline: none;
 }
 
+input[type=number] {
+  border: 1px solid #888;
+  border-radius: 5px;
+  color: #444;
+  outline: none;
+}
+
 button {
   background-color: #768bb4;
   border: 1px solid #000;
@@ -46,6 +53,8 @@ button.delete:hover {
 }
 
 .job {
+  min-height: 33px;
+  vertical-align: middle;
   margin: 10px;
   .title {
     width: 300px;

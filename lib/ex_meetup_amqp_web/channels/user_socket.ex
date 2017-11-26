@@ -2,7 +2,7 @@ defmodule ExMeetupAmqpWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", ExMeetupAmqpWeb.RoomChannel
+  channel "notifications:*", ExMeetupAmqpWeb.NotificationChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

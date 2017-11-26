@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    <div class="container" ng-app="MyApp">
+    <div class="container" ng-app="ExMeetupAmqp">
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>

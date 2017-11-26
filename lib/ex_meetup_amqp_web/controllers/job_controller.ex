@@ -13,19 +13,27 @@ defmodule ExMeetupAmqpWeb.JobController do
   end
 
   def create(conn, %{"job" => job_params}) do
-    with {:ok, %Job{} = job} <- Jobs.create_job(job_params) do
+    iterations =
+      job_params
+      |> Map.get("params")
+      |> Map.get("iterations", 1)
 
-      params = %{
-        job_id: job.id,
-        params: job.params
-      }
-      JobEmitter.publish_json(params)
+    jobs =
+      for _index <- 1..iterations do
+        with {:ok, %Job{} = job} <- Jobs.create_job(job_params) do
 
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", job_path(conn, :show, job))
-      |> render("show.json", job: job)
-    end
+          params = %{
+            job_id: job.id,
+            params: job.params
+          }
+          JobEmitter.publish_json(params)
+          job
+        end
+      end
+
+    conn
+    |> put_status(:created)
+    |> render("index.json", jobs: jobs)
   end
 
   def show(conn, %{"id" => id}) do
@@ -42,9 +50,14 @@ defmodule ExMeetupAmqpWeb.JobController do
   end
 
   def delete(conn, %{"id" => id}) do
-    job = Jobs.get_job!(id)
-    with {:ok, %Job{}} <- Jobs.delete_job(job) do
-      send_resp(conn, :no_content, "")
+    # job = Jobs.get_job!(id)
+    # with {:ok, %Job{}} <- Jobs.delete_job(job) do
+    #   send_resp(conn, :no_content, "")
+    # end
+
+    for job <- Jobs.list_jobs() do
+      Jobs.delete_job(job)
     end
+    send_resp(conn, :no_content, "")
   end
 end

@@ -9,10 +9,10 @@ defmodule ExMeetupAmqp.JobConsumer do
   }
 
   def consume(channel, tag, _redelivered, %{"job_id" => job_id} = payload) do
-    job_id = Map.get(payload, "job_id")
     status = Map.get(payload, "status")
 
     ExMeetupAmqp.Jobs.Status.set_job_status(job_id, status)
+    ExMeetupAmqpWeb.Endpoint.broadcast! "notifications:all", "job_status", payload
 
     Basic.ack channel, tag
   end

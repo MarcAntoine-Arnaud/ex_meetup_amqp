@@ -21,7 +21,7 @@ def callback(ch, method, properties, body):
         msg = json.loads(body.decode('utf-8'))
         logging.debug( msg )
 
-        time.sleep(3)
+        time.sleep(0.01)
 
         body_message = {
             "status": 'completed',

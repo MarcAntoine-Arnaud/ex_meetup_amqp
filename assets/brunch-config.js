@@ -7,13 +7,12 @@ exports.config = {
       joinTo: {
         "js/app.js": /^js/,
         "js/vendor.js": /^(?!js)/
-      }
+      },
       //
       // To change the order of concatenation of files, explicitly mention here
       // order: {
-      //   before: [
-      //     "vendor/js/jquery-2.1.1.js",
-      //     "vendor/js/bootstrap.min.js"
+      //   after: [
+      //     "js/app.js",
       //   ]
       // }
     },
@@ -82,8 +81,7 @@ exports.config = {
       $: 'jquery',
       jQuery: 'jquery',
       angular: 'angular',
-      ngResource: 'angular-resource',
-      // fontawesome: 'font-awesome',
+      ngResource: 'angular-resource'
     }
   }
 };
