@@ -2,7 +2,6 @@
 
 import os
 import json
-import time
 import traceback
 import logging
 
@@ -21,7 +20,9 @@ def callback(ch, method, properties, body):
         msg = json.loads(body.decode('utf-8'))
         logging.debug( msg )
 
-        time.sleep(0.01)
+        total = 0
+        for x in xrange(1, 100000):
+            total += x * x
 
         body_message = {
             "status": 'completed',
