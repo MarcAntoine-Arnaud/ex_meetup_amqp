@@ -21,7 +21,7 @@ def callback(ch, method, properties, body):
         logging.debug( msg )
 
         total = 0
-        for x in xrange(1, 100000):
+        for x in range(100000):
             total += x * x
 
         body_message = {
