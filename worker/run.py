@@ -30,6 +30,7 @@ def callback(ch, method, properties, body):
         }
 
         messaging.sendJson('job_result', body_message)
+        ch.basic_ack(method.delivery_tag)
 
     except Exception as e:
         logging.error(e)

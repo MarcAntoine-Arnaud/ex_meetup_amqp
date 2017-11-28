@@ -52,7 +52,7 @@ class Connection:
     def consume(self, queue, callback):
         self.channel.basic_consume(callback,
                       queue=queue,
-                      no_ack=True)
+                      no_ack=False)
 
         logging.info('Service started, waiting messages ...')
         self.channel.start_consuming()
